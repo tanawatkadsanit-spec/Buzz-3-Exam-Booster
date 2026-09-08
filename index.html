@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Buzz 3 Exam Booster | Interactive Study App</title>
+<style>
+:root{--bg:#f7f8ff;--card:#fff;--ink:#172033;--muted:#65708a;--primary:#6c5ce7;--secondary:#00b894;--accent:#ff9f43;--danger:#ff6b6b;--line:#e7e9f2;--shadow:0 12px 32px rgba(32,37,65,.10)}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#eef1ff 0,#f9fbff 42%,#fff 100%);color:var(--ink)}
+button{font:inherit}.app{max-width:1180px;margin:auto;padding:18px}
+header{background:linear-gradient(135deg,#5f4be8,#8b5cf6 55%,#00b894);color:#fff;border-radius:28px;padding:28px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+header:after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-70px;top:-110px;background:rgba(255,255,255,.13)}
+h1{margin:0 0 8px;font-size:clamp(28px,5vw,48px);line-height:1.02}.subtitle{opacity:.92;max-width:720px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.pill,.btn{border:0;border-radius:999px;padding:10px 15px;cursor:pointer;font-weight:750}.pill{background:rgba(255,255,255,.16);color:#fff}.btn{background:var(--primary);color:#fff}.btn.alt{background:#fff;color:var(--primary)}.btn.ghost{background:#f1f2fb;color:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}.stat{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:15px;box-shadow:var(--shadow)}.stat b{font-size:25px;display:block}.stat span{color:var(--muted);font-size:13px}
+.layout{display:grid;grid-template-columns:270px 1fr;gap:16px}.side,.content{background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}.side{padding:14px;height:max-content;position:sticky;top:12px}.nav{display:grid;gap:7px}.nav button{border:0;background:transparent;text-align:left;padding:11px 12px;border-radius:14px;cursor:pointer;color:var(--ink)}.nav button.active,.nav button:hover{background:#efedff;color:#5541d8;font-weight:800}
+.content{padding:24px;min-height:650px}.view{display:none}.view.active{display:block}.eyebrow{color:var(--primary);font-weight:900;text-transform:uppercase;letter-spacing:.08em;font-size:12px}.section-title{font-size:30px;margin:6px 0 8px}.muted{color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.topic{border:1px solid var(--line);border-radius:20px;padding:16px;background:#fcfcff}.topic h3{margin:0 0 8px}.topic ul{margin:8px 0;padding-left:20px}
+.rule{background:#f6f5ff;border-left:5px solid var(--primary);padding:13px 15px;border-radius:14px;margin:12px 0}.example{background:#f0fff9;border-left:5px solid var(--secondary);padding:13px 15px;border-radius:14px}
+.flash{display:flex;align-items:center;justify-content:space-between;gap:15px;background:linear-gradient(135deg,#fff8e9,#fff);border:1px solid #ffe2a8;border-radius:20px;padding:18px;margin:15px 0}.flash strong{font-size:28px}.chip{display:inline-block;background:#f1f2fb;border-radius:999px;padding:5px 9px;margin:3px;font-size:13px}
+.quiz-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.progress{height:10px;background:#eceef6;border-radius:999px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));width:0}.qcard{margin-top:18px;border:1px solid var(--line);border-radius:22px;padding:20px}.options{display:grid;gap:10px;margin-top:15px}.option{padding:13px 15px;border:2px solid var(--line);background:#fff;border-radius:15px;cursor:pointer;text-align:left}.option:hover{border-color:#aaa0ff}.option.correct{border-color:var(--secondary);background:#eafff7}.option.wrong{border-color:var(--danger);background:#fff0f0}.feedback{margin-top:15px;font-weight:800}.nextrow{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+.reading{font-size:18px;line-height:1.65;background:#fffdf6;border:1px solid #f0e6c8;border-radius:20px;padding:20px}.reading mark{background:#ffe49b;border-radius:4px;padding:1px 3px}
+.timer{font-variant-numeric:tabular-nums;font-weight:900}.badge{display:inline-flex;align-items:center;gap:5px;background:#fff0cf;border:1px solid #ffd978;border-radius:999px;padding:6px 10px;font-weight:800}
+footer{padding:22px 4px;color:var(--muted);font-size:12px;text-align:center}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.side{position:static}.nav{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}.content{padding:17px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="eyebrow" style="color:#fff">Interactive exam booster</div>
+  <h1>🚀 Buzz 3 Exam Booster</h1>
+  <div class="subtitle">Study → Practice → Challenge. Built around the Starter + Units 1–3 scope, with a special Reading Challenge for <b>The Dragon Dance</b>.</div>
+  <div class="toolbar">
+    <button class="pill" id="musicBtn">🎵 Music: Off</button>
+    <button class="pill" id="soundBtn">🔊 Sound: On</button>
+    <button class="pill" id="resetBtn">↺ Reset Progress</button>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><b id="xp">0</b><span>XP</span></div>
+  <div class="stat"><b id="score">0%</b><span>Best accuracy</span></div>
+  <div class="stat"><b id="streak">0</b><span>Correct streak</span></div>
+  <div class="stat"><b id="stars">☆</b><span>Achievement</span></div>
+</div>
+
+<div class="layout">
+<aside class="side">
+  <div class="nav">
+    <button data-view="home" class="active">🏠 Home</button>
+    <button data-view="lessons">📚 Learn</button>
+    <button data-view="quiz">🎯 Practice</button>
+    <button data-view="reading">🐉 Reading Challenge</button>
+    <button data-view="mock">🏆 Mock Exam</button>
+  </div>
+</aside>
+
+<main class="content">
+<section id="home" class="view active">
+  <div class="eyebrow">Mission briefing</div><h2 class="section-title">Ready to level up?</h2>
+  <p class="muted">Use <b>Learn</b> first, then <b>Practice</b>. Finish the Dragon Dance challenge and take the Mock Exam.</p>
+  <div class="cards">
+    <div class="topic"><h3>📅 Starter</h3><p>Months • Dates • Ordinal numbers</p></div>
+    <div class="topic"><h3>☀️ Unit 1 — My Day</h3><p>Daily routines • Present Simple • Time</p></div>
+    <div class="topic"><h3>⭐ Unit 2 — My Talents</h3><p>Skills • likes/dislikes • good at + -ing</p></div>
+    <div class="topic"><h3>🏠 Unit 3 — My Home</h3><p>Furniture • There is/are • Comparatives</p></div>
+    <div class="topic"><h3>🐉 Reading</h3><p>The Dragon Dance • February 12th • China</p></div>
+  </div>
+  <div class="rule"><b>Exam trick:</b> Watch for <b>he/she + -s</b>, <b>doesn't/does + V1</b>, <b>good at + V-ing</b>, and <b>there is/there are</b>.</div>
+</section>
+
+<section id="lessons" class="view">
+  <div class="eyebrow">Learn zone</div><h2 class="section-title">📚 Exam-ready lessons</h2>
+  <div id="lessonCards"></div>
+</section>
+
+<section id="quiz" class="view">
+  <div class="quiz-head"><div><div class="eyebrow">Practice</div><h2 class="section-title">🎯 Quick Practice</h2></div><span class="badge">+10 XP / correct</span></div>
+  <div class="progress"><i id="quizProgress"></i></div>
+  <div id="quizCard" class="qcard"></div>
+</section>
+
+<section id="reading" class="view">
+  <div class="eyebrow">Reading Challenge</div><h2 class="section-title">🐉 The Dragon Dance</h2>
+  <div class="reading">
+    <p><b>February 12th</b></p>
+    <p>In China, we have a celebration for children every year. We have a lot of fun at my school. We do the <b>dragon dance</b>! It's a famous dance from China. There are a lot of <b>dancers</b> in the dragon costume. A lot of people are watching. The dancers move like a dragon. They have a red and purple dragon. They are great!</p>
+  </div>
+  <div class="cards" style="margin-top:15px">
+    <div class="topic"><h3>🔎 Key facts</h3><p><b>When?</b> February 12th<br><b>Where?</b> China / school<br><b>What?</b> Dragon Dance<br><b>Colors?</b> Red and purple</p></div>
+    <div class="topic"><h3>🧠 Vocabulary</h3><span class="chip">celebration</span><span class="chip">children</span><span class="chip">dancers</span><span class="chip">costume</span><span class="chip">watch</span><span class="chip">move</span></div>
+  </div>
+  <div class="rule"><b>Reading strategy:</b> 1) Find the date. 2) Find the place. 3) Find who/what. 4) Look for color words. 5) Answer using words from the passage.</div>
+  <button class="btn" id="startReading">Start Reading Quiz →</button>
+  <div id="readingQuiz" style="margin-top:15px"></div>
+</section>
+
+<section id="mock" class="view">
+  <div class="eyebrow">Final mission</div><h2 class="section-title">🏆 Mock Exam</h2>
+  <p class="muted">20 mixed questions. Aim for 80%+ before exam day.</p>
+  <div class="cards">
+    <div class="topic"><h3>Section A</h3><p>Months, dates, routines, time</p></div>
+    <div class="topic"><h3>Section B</h3><p>Skills, likes, talents</p></div>
+    <div class="topic"><h3>Section C</h3><p>Home, there is/are, comparisons</p></div>
+    <div class="topic"><h3>Section D</h3><p>The Dragon Dance reading</p></div>
+  </div>
+  <button class="btn" id="startMock">Start 20-question Mock Exam →</button>
+  <div id="mockArea" style="margin-top:15px"></div>
+</section>
+</main>
+</div>
+<footer>
+  Content basis: uploaded Buzz 3 Student Book pages shown in the source PDF, especially Starter p.4–5, Unit 1 p.6–11, Unit 2 p.18–21 and Reading p.25, Unit 3 p.28–33. This app is a study aid and does not reproduce the textbook page artwork.
+</footer>
+</div>
+
+<script>
+const lessons=[
+{t:"Starter — Months, Dates & Ordinals",e:"📅",points:[
+"12 months: January, February, March, April, May, June, July, August, September, October, November, December.",
+"Dates use ordinal numbers: first, second, third, fourth, fifth… fifteenth, twentieth, twenty-first, thirtieth, thirty-first.",
+"Question pattern: “When's your birthday?” → “It's in July.” / “My birthday is March second.”"
+],ex:"My birthday is March second."},
+{t:"Unit 1 — Daily Routines",e:"☀️",points:[
+"get up • get dressed • brush my hair • brush my teeth • take a shower • go to school • do my homework • go to bed.",
+"Time of day: in the morning / in the afternoon / in the evening.",
+"Question: “What do you do in the morning?” → “I have breakfast.”"
+],ex:"I do my homework in the afternoon."},
+{t:"Unit 1 — Present Simple",e:"⚙️",points:[
+"I/You/We/They use V1: I go to school.",
+"He/She/It usually takes -s: She goes to school.",
+"Negative: don't + V1 / doesn't + V1. Never add -s after doesn't."
+],ex:"She doesn't go to school on Saturday."},
+{t:"Unit 1 — Telling Time",e:"⏰",points:[
+"1:00 one o'clock • 1:15 one fifteen • 1:20 one twenty • 1:30 one thirty • 1:45 one forty-five • 1:50 one fifty.",
+"Question: “What time is it?”",
+"When does he/she get up? → He/She gets up at six o'clock."
+],ex:"He gets up at six o'clock."},
+{t:"Unit 2 — Skills & Can",e:"⭐",points:[
+"Use can + V1: I can jump rope.",
+"Useful skills: skateboard, rollerblade, ride a bike, jump rope, hop.",
+"Question: “What can you do?” → “I can …”"
+],ex:"I can ride a bike."},
+{t:"Unit 2 — Likes & Dislikes",e:"❤️",points:[
+"I like + V-ing. I don't like + V-ing.",
+"Do you like + V-ing? → Yes, I do. / No, I don't.",
+"He/She likes … / He/She doesn't like …"
+],ex:"Does she like skateboarding? — Yes, she does."},
+{t:"Unit 2 — Talents",e:"🎨",points:[
+"bake cupcakes • paint pictures • play the keyboard • act • juggle • do gymnastics.",
+"good at + V-ing: I’m good at painting pictures.",
+"Question: “Are you good at …?” → “Yes, I am.” / “No, I'm not.”"
+],ex:"I'm good at painting pictures."},
+{t:"Reading — The Dragon Dance",e:"🐉",points:[
+"Date: February 12th. Country: China.",
+"Activity: dragon dance. Dancers wear a dragon costume.",
+"People watch the dancers. The dragons are red and purple."
+],ex:"The Dragon Dance is a famous dance from China."},
+{t:"Unit 3 — Living Room",e:"🏠",points:[
+"curtains • painting • vase • shelf • armchair • rug • coffee table • fireplace.",
+"Where's the vase? → On the coffee table."
+],ex:"There's a vase on the coffee table."},
+{t:"Unit 3 — There is / There are",e:"🔢",points:[
+"There is / There's + one thing: There's a rug on the floor.",
+"There are + plural: There are three books on the shelf.",
+"Negative: There isn't + singular / There aren't + plural."
+],ex:"There aren't any books on the shelf."},
+{t:"Unit 3 — Kitchen Things",e:"🍽️",points:[
+"plate • glass • pitcher • knife • fork • spoon.",
+"Practice: Is there a plate on the table? → Yes, there is. / No, there isn't."
+],ex:"There is a spoon on the table."},
+{t:"Unit 3 — Comparatives",e:"📏",points:[
+"long → longer; short → shorter; big → bigger; small → smaller; new → newer; old → older; clean → cleaner.",
+"Use than: The blue fork is longer than the yellow fork.",
+"Watch spelling: big → bigger (double g)."
+],ex:"The blue fork is longer than the yellow fork."}
+];
+
+const quick=[
+["My birthday is March _____.",["two","second","twice","twoth"],1,"Dates use ordinal numbers."],
+["What do you do in the morning?",["I have breakfast.","I am breakfast.","I breakfasts.","I having breakfast."],0,"Use a simple present sentence."],
+["Jane _____ to school on Monday.",["go","goes","going","don't go"],1,"Jane = she → verb + s."],
+["She _____ go to school on Saturday.",["don't","doesn't","isn't","aren't"],1,"She + doesn't + V1."],
+["What time is 1:30?",["one thirteen","one thirty","one three","one fifteen"],1,"30 = thirty."],
+["What can you do?",["I can jump rope.","I am jump rope.","I does jump rope.","I can jumping rope."],0,"can + V1."],
+["Do you like hopping?",["Yes, I do.","Yes, I am.","Yes, I does.","Yes, I like."],0,"Do you → Yes, I do."],
+["She is good at _____.",["sing","sings","singing","to sing"],2,"good at + V-ing."],
+["_____ three books on the shelf.",["There is","There are","There isn't","Is there"],1,"Three books = plural."],
+["The blue fork is _____ than the yellow fork.",["long","longer","longest","more long"],1,"Comparative + than."],
+["The Dragon Dance celebration is on _____.",["January 12th","February 12th","March 12th","February 20th"],1,"The reading gives February 12th."],
+["The dragons are _____.",["blue and green","red and purple","black and white","yellow and pink"],1,"The reading says red and purple."],
+["Where's the vase?",["On the coffee table.","In the curtains.","Under the fireplace.","Behind the rug."],0,"The textbook model asks about the vase."],
+["She _____ skateboarding.",["like","likes","liking","does like"],1,"She → likes."],
+["She doesn't _____ jumping rope.",["likes","like","liking","liked"],1,"doesn't + V1."]
+];
+
+const readingQs=[
+["When is the Dragon Dance celebration?",["February 12th","March 12th","January 12th"],0],
+["Where is the celebration described?",["China","Thailand","Romania"],0],
+["What dance do they do?",["Dragon dance","Ballet","Football dance"],0],
+["Who are in the dragon costume?",["Dancers","Teachers","Doctors"],0],
+["What colors are the dragons?",["Red and purple","Blue and yellow","Green and black"],0],
+["What do many people do?",["They are watching.","They are sleeping.","They are cooking."],0]
+];
+
+let state=JSON.parse(localStorage.getItem("buzz3state")||'{"xp":0,"correct":0,"answered":0,"streak":0,"best":0}');
+let soundOn=true,musicOn=false,audioCtx=null,osc=null,gain=null;
+function save(){localStorage.setItem("buzz3state",JSON.stringify(state));renderStats()}
+function renderStats(){document.querySelector("#xp").textContent=state.xp;document.querySelector("#score").textContent=state.answered?Math.round(state.correct/state.answered*100)+"%":"0%";document.querySelector("#streak").textContent=state.streak;document.querySelector("#stars").textContent=state.xp>=300?"★★★":state.xp>=150?"★★":"★"}
+function beep(ok=true){if(!soundOn)return;try{audioCtx??=new (window.AudioContext||window.webkitAudioContext)();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=ok?"sine":"sawtooth";o.frequency.value=ok?740:180;g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.12,audioCtx.currentTime+.02);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+(ok?.25:.35));o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+(ok?.27:.37))}catch(e){}}
+function startMusic(){if(!musicOn)return;try{audioCtx??=new (window.AudioContext||window.webkitAudioContext)();if(osc)return;osc=audioCtx.createOscillator();gain=audioCtx.createGain();osc.type="triangle";osc.frequency.value=261.63;gain.gain.value=.018;osc.connect(gain).connect(audioCtx.destination);osc.start();let notes=[261.63,329.63,392,523.25,392,329.63];let i=0;window.musicTimer=setInterval(()=>{if(!osc)return;osc.frequency.setTargetAtTime(notes[i++%notes.length],audioCtx.currentTime,.05)},500)}catch(e){}}
+function stopMusic(){if(osc){try{osc.stop()}catch(e){}osc=null}if(window.musicTimer)clearInterval(window.musicTimer)}
+document.querySelector("#musicBtn").onclick=()=>{musicOn=!musicOn;document.querySelector("#musicBtn").textContent="🎵 Music: "+(musicOn?"On":"Off");musicOn?startMusic():stopMusic()}
+document.querySelector("#soundBtn").onclick=()=>{soundOn=!soundOn;document.querySelector("#soundBtn").textContent="🔊 Sound: "+(soundOn?"On":"Off")}
+document.querySelector("#resetBtn").onclick=()=>{if(confirm("Reset XP and quiz progress?")){state={xp:0,correct:0,answered:0,streak:0,best:0};save()}}
+
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));document.querySelector("#"+b.dataset.view).classList.add("active")});
+
+document.querySelector("#lessonCards").innerHTML=lessons.map((l,i)=>`<div class="topic" style="margin:12px 0"><h3>${l.e} ${i+1}. ${l.t}</h3><ul>${l.points.map(x=>`<li>${x}</li>`).join("")}</ul><div class="example"><b>Example:</b> ${l.ex}</div></div>`).join("");
+
+let qi=0;function renderQuiz(){let q=quick[qi];document.querySelector("#quizProgress").style.width=(qi/quick.length*100)+"%";document.querySelector("#quizCard").innerHTML=`<div class="eyebrow">Question ${qi+1} of ${quick.length}</div><h3 style="font-size:24px">${q[0]}</h3><div class="options">${q[1].map((o,i)=>`<button class="option" data-i="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div><div id="fb"></div>`;document.querySelectorAll("#quizCard .option").forEach(b=>b.onclick=()=>answerQuiz(+b.dataset.i,q[2],q[3]))}
+function answerQuiz(i,ans,why){let opts=[...document.querySelectorAll("#quizCard .option")];opts.forEach(x=>x.disabled=true);opts[ans].classList.add("correct");state.answered++;if(i===ans){state.correct++;state.xp+=10;state.streak++;beep(true);document.querySelector("#fb").innerHTML=`<div class="feedback" style="color:var(--secondary)">🎉 Correct! +10 XP — ${why}</div>`}else{state.streak=0;opts[i].classList.add("wrong");beep(false);document.querySelector("#fb").innerHTML=`<div class="feedback" style="color:var(--danger)">💡 Not quite. The answer is <b>${opts[ans].textContent}</b><br>${why}</div>`}state.best=Math.max(state.best,Math.round(state.correct/state.answered*100));save();document.querySelector("#quizCard").insertAdjacentHTML("beforeend",`<div class="nextrow"><span></span><button class="btn" id="nextQ">${qi===quick.length-1?"Finish 🎉":"Next →"}</button></div>`);document.querySelector("#nextQ").onclick=()=>{qi=(qi+1)%quick.length;renderQuiz()}}renderQuiz();
+
+document.querySelector("#startReading").onclick=()=>runChallenge(readingQs,document.querySelector("#readingQuiz"),"Reading Challenge");
+function runChallenge(qs,area,title){let idx=0,score=0;function r(){if(idx>=qs.length){area.innerHTML=`<div class="topic"><h3>🏁 ${title} complete!</h3><p>You scored <b>${score}/${qs.length}</b>.</p><button class="btn" id="retry">Try again</button></div>`;document.querySelector("#retry").onclick=()=>{idx=0;score=0;r()};return}let q=qs[idx];area.innerHTML=`<div class="qcard"><div class="eyebrow">Challenge ${idx+1}/${qs.length}</div><h3>${q[0]}</h3><div class="options">${q[1].map((o,i)=>`<button class="option" data-i="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join("")}</div></div>`;area.querySelectorAll(".option").forEach(b=>b.onclick=()=>{let n=+b.dataset.i;area.querySelectorAll(".option").forEach(x=>x.disabled=true);area.querySelectorAll(".option")[q[2]].classList.add("correct");if(n===q[2]){score++;state.xp+=15;beep(true)}else{area.querySelectorAll(".option")[n].classList.add("wrong");beep(false)}idx++;save();setTimeout(r,650)})}r()}
+
+document.querySelector("#startMock").onclick=()=>{let qs=[...quick,...readingQs.map(x=>[x[0],x[1],x[2],"Use the reading passage."])].sort(()=>Math.random()-.5).slice(0,20);let area=document.querySelector("#mockArea");runChallenge(qs,area,"Mock Exam")};
+renderStats();
+</script>
+</body>
+</html>
